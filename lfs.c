@@ -503,7 +503,6 @@ static inline void lfs_superblock_tole32(lfs_superblock_t *superblock) {
 }
 #endif
 
-#ifndef LFS_NO_ASSERT
 static bool lfs_mlist_isopen(struct lfs_mlist *head,
         struct lfs_mlist *node) {
     for (struct lfs_mlist **p = &head; *p; p = &(*p)->next) {
@@ -514,7 +513,6 @@ static bool lfs_mlist_isopen(struct lfs_mlist *head,
 
     return false;
 }
-#endif
 
 static void lfs_mlist_remove(lfs_t *lfs, struct lfs_mlist *mlist) {
     for (struct lfs_mlist **p = &lfs->mlist; *p; p = &(*p)->next) {
@@ -642,7 +640,7 @@ static int lfs_alloc_scan(lfs_t *lfs) {
     //
     // note we limit the lookahead buffer to at most the amount of blocks
     // checkpointed, this prevents the math in lfs_alloc from underflowing
-    lfs->lookahead.start = (lfs->lookahead.start + lfs->lookahead.next) 
+    lfs->lookahead.start = (lfs->lookahead.start + lfs->lookahead.next)
             % lfs->block_count;
     lfs->lookahead.next = 0;
     lfs->lookahead.size = lfs_min(
@@ -1114,7 +1112,7 @@ static lfs_stag_t lfs_dir_fetchmatch(lfs_t *lfs,
 
     // if either block address is invalid we return LFS_ERR_CORRUPT here,
     // otherwise later writes to the pair could fail
-    if (lfs->block_count 
+    if (lfs->block_count
             && (pair[0] >= lfs->block_count || pair[1] >= lfs->block_count)) {
         return LFS_ERR_CORRUPT;
     }
